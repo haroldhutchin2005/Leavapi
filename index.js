@@ -9,17 +9,17 @@ const port = process.env.PORT || 4000;
 const filesDirectory = './'; // Change this to your desired directory
 
 app.get('/join2', async (req, res) => {
-  const { memberId, backgroundUrl, title, description } = req.query;
+  const { memberId, backgroundUrl, title, description, senderID } = req.query;
 
-  // Get the profile picture of the user based on event.senderID
-  const avatarUrl = await getProfilePictureUrl(event.senderID);
+  // Get the profile picture of the user based on senderID
+  const avatarUrl = await getProfilePictureUrl(senderID);
 
   const welcome = await new WelcomeLeave()
     .setAvatar(avatarUrl)
     .setBackground("image", backgroundUrl)
     .setTitle(title)
     .setDescription(description)
-    .build(); // No need to set overlayOpacity, using the default value
+    .build();
 
   // Save the generated welcome image
   const welcomeImagePath = path.join(__dirname, filesDirectory, 'welcome.jpg');
