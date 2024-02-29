@@ -5,20 +5,25 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 const filesDirectory = './'; // Change this to your desired directory
 
 app.get('/join2', async (req, res) => {
-  const { memberId, backgroundUrl, title, description, senderID } = req.query;
+  const { name, id, background, count, text } = req.query;
 
-  // Get the profile picture of the user based on senderID
-  const avatarUrl = await getProfilePictureUrl(senderID);
+  // Check for missing parameters
+  if (!name || !id || !background || !count || !text) {
+    return res.status(400).send('Missing parameters. Please provide name, id, background, count, and text.');
+  }
+
+  // Get the profile picture of the user based on id
+  const avatarUrl = await getProfilePictureUrl(id);
 
   const welcome = await new WelcomeLeave()
     .setAvatar(avatarUrl)
-    .setBackground("image", backgroundUrl)
-    .setTitle(title)
-    .setDescription(description)
+    .setBackground("image", background)
+    .setTitle(`Welcome, ${name}!`)
+    .setDescription(`${text}. You are member ${count}.`)
     .build();
 
   // Save the generated welcome image
@@ -32,7 +37,7 @@ app.get('/join2', async (req, res) => {
 
   // Send the generated welcome image as an attachment
   res.set('Content-Type', 'image/png');
-  res.set('Content-Disposition', `attachment; filename=welcome-${memberId}.png`);
+  res.set('Content-Disposition', `attachment; filename=welcome-${id}.png`);
   res.send(welcome);
 });
 
