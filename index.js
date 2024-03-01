@@ -20,7 +20,7 @@ app.get('/join2', async (req, res) => {
     .setAvatar(avatarUrl)
     .setBackground("image", background)
     .setTitle(`Welcome, ${name}!`)
-    .setDescription(`You are member ${count}.`)
+    .setDescription(`You are member ${count} of this group`)
     .build();
 
   // Send the generated welcome image as an inline image
