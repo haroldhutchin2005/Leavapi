@@ -26,19 +26,10 @@ app.get('/join2', async (req, res) => {
     .setDescription(`${text}. You are member ${count}.`)
     .build();
 
-  // Save the generated welcome image
-  const welcomeImagePath = path.join(__dirname, filesDirectory, 'welcome.jpg');
-  await fs.writeFile(welcomeImagePath, welcome);
-
-  // Save the user's profile picture
-  const avatarImagePath = path.join(__dirname, filesDirectory, 'avatar.jpg');
-  const avatarImage = await axios.get(avatarUrl, { responseType: 'arraybuffer' });
-  await fs.writeFile(avatarImagePath, Buffer.from(avatarImage.data, 'binary'));
-
-  // Send the generated welcome image as an attachment
+  // Send the generated welcome image as an inline image
   res.set('Content-Type', 'image/png');
-  res.set('Content-Disposition', `attachment; filename=welcome-${id}.png`);
-  res.send(welcome);
+  res.set('Content-Disposition', 'inline');
+  res.send(Buffer.from(welcome, 'binary'));
 });
 
 async function getProfilePictureUrl(senderID) {
