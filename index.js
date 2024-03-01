@@ -5,7 +5,7 @@ const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 4809;
 
-app.get('/join2', async (req, res) => {
+app.get('/leave', async (req, res) => {
   const { name, id, background, count } = req.query;
 
   // Check for missing parameters
