@@ -1,19 +1,16 @@
 const express = require('express');
 const { WelcomeLeave } = require('canvafy');
 const axios = require('axios');
-const fs = require('fs').promises;
-const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 4809;
-const filesDirectory = './'; // Change this to your desired directory
 
 app.get('/join2', async (req, res) => {
-  const { name, id, background, count, text } = req.query;
+  const { name, id, background, count } = req.query;
 
   // Check for missing parameters
-  if (!name || !id || !background || !count || !text) {
-    return res.status(400).send('Missing parameters. Please provide name, id, background, count, and text.');
+  if (!name || !id || !background || !count) {
+    return res.status(400).send('Missing parameters. Please provide name, id, background, and count.');
   }
 
   // Get the profile picture of the user based on id
@@ -23,7 +20,7 @@ app.get('/join2', async (req, res) => {
     .setAvatar(avatarUrl)
     .setBackground("image", background)
     .setTitle(`Welcome, ${name}!`)
-    .setDescription(`${text}. You are member ${count}.`)
+    .setDescription(`You are member ${count}.`)
     .build();
 
   // Send the generated welcome image as an inline image
