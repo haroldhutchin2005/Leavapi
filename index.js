@@ -19,8 +19,8 @@ app.get('/join2', async (req, res) => {
   const welcome = await new WelcomeLeave()
     .setAvatar(avatarUrl)
     .setBackground("image", background)
-    .setTitle(`Welcome, ${name}!`)
-    .setDescription(`You are member ${count} of this group`)
+    .setTitle(`Goodbye, ${name}!`)
+    .setDescription(`Left members ${count} of this group`)
     .build();
 
   // Send the generated welcome image as an inline image
